@@ -1,0 +1,3 @@
+A GitHub nem engedi, hogy a teljes Unity kódot ugyanahhoz a személyhez feltöltsük, ezért a Repot, amiben minden más benne van nem csak a scriptek vannak benne ide linkelem:
+
+https://github.com/ZyphiaHub/AstroWheel 
