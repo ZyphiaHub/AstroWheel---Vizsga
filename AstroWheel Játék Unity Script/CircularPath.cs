@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CircularPath : MonoBehaviour
 {
-    public Transform target; //target object to rotate around
-    public float speed = 2f; //speed of the moving object
+    public Transform target; 
+    public float speed = 2f; 
     public float radius = 1f; //radius of circular path
     public float angle = 0f; //current angle of the object
 

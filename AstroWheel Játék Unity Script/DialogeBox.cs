@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -12,14 +11,13 @@ public class DialogeBox : MonoBehaviour
 
     private int index;
 
-    // Start is called before the first frame update
     void Start()
     {
         textComponent.text = string.Empty;
         StartDialoge();
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         if (Input.GetMouseButton(0))

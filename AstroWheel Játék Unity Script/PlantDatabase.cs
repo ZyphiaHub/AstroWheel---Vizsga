@@ -14,7 +14,7 @@ public class PlantDatabase : ScriptableObject {
         {
             if (obj is Item other)
             {
-                return englishName == other.englishName; // Azonosítás név alapján
+                return englishName == other.englishName; 
             }
             return false;
         }
@@ -25,5 +25,5 @@ public class PlantDatabase : ScriptableObject {
         }
     }
 
-    public Item[] items; // Tárgyak listája
+    public Item[] items; 
 }

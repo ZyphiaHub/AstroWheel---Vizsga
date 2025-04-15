@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CraftedItemDatabase", menuName = "ScriptableObjects/CraftedItemDatabase", order = 3)]

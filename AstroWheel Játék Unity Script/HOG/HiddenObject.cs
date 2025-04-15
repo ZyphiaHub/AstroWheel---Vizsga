@@ -7,7 +7,6 @@ public class HiddenObject : MonoBehaviour {
 
     private void Start()
     {
-        // Automatikus keresés, ha nincs beállítva
         if (manager == null)
         {
             manager = FindObjectOfType<HOGManager>();
@@ -26,9 +25,7 @@ public class HiddenObject : MonoBehaviour {
         if (isClickable)
         {
             manager.ObjectFound(this);
-            //HOGManager.Instance.ObjectFound(this);
             SetClickable(false);
-            // Opcionális: vizuális effektus
             GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0f);
         }
     }

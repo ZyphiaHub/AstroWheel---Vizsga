@@ -1,9 +1,6 @@
-using JetBrains.Annotations;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PuzzleGameManager : MonoBehaviour {
@@ -44,14 +41,13 @@ public class PuzzleGameManager : MonoBehaviour {
     void Start()
     {
         
-
         // Ellenõrizzük, hogy az utolsó teljesített sziget 0-e
         if (GameManager.Instance.LoadLastCompletedIsland() == 0)
         {
             // Ha 0, akkor egybõl elindítjuk az elsõ képet
             if (imageTexture.Count > 0)
             {
-                StartGame(imageTexture[0]); // Az elsõ kép betöltése
+                StartGame(imageTexture[0]); 
             } else
             {
                 Debug.LogWarning("Nincs kép az imageTexture listában!");
@@ -59,8 +55,6 @@ public class PuzzleGameManager : MonoBehaviour {
         } else   //a játékos már járt itt, választhat más képet
         {
 
-
-            //create the UI
             foreach (Texture2D texture in imageTexture)
             {
                 Image image = Instantiate(levelSelectPrefab, levelSelectPanel);
@@ -69,30 +63,21 @@ public class PuzzleGameManager : MonoBehaviour {
                 image.GetComponent<Button>().onClick.AddListener(delegate { StartGame(texture); });
             }
             
-                
-                
-
         }
     }
     public void StartGame(Texture2D jigsawTexture)
     {
-        // Reset the score
         score = 0;
         UpdateScoreUI();
 
-        //hide the UI
         levelSelectPanel.gameObject.SetActive(false);
 
         //store a list of the transform for each jigsaw piece so we can track them
         pieces = new List<Transform>();
 
-        //calculate the size of each
         dimensions = GetDimensions(jigsawTexture, difficulty);
 
-        //create jigsaw pieces
         CreateJigsawPieces(jigsawTexture);
-
-        //place the pieces randomly into the visible area
         Scatter();
 
         UpdateBorder();
@@ -112,7 +97,6 @@ public class PuzzleGameManager : MonoBehaviour {
                 dimensions.x = (difficulty * jigsawTexture.width) / jigsawTexture.height;
                 dimensions.y = difficulty;
             }
-
             return dimensions;
         }
     }
@@ -136,7 +120,7 @@ public class PuzzleGameManager : MonoBehaviour {
                     -1);
                 piece.localScale = new Vector3(width, height, 1f);
 
-                //name pieces fro our sanity (and debugging)
+                //name pieces for our sanity (and debugging)
                 piece.name = $"Piece{(row * dimensions.x) + col}";
                 pieces.Add(piece);
 
@@ -154,12 +138,10 @@ public class PuzzleGameManager : MonoBehaviour {
                 //update the texture on the piece
                 piece.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", jigsawTexture);
 
-                // Add a BoxCollider2D to the piece
                 BoxCollider2D collider = piece.gameObject.AddComponent<BoxCollider2D>();
                 collider.size = new Vector2(width, height); // Set collider size to match the piece size
 
             }
-
         }
     }
 
@@ -175,7 +157,6 @@ public class PuzzleGameManager : MonoBehaviour {
         orthoHeight -= pieceHeight;
         orthoWidth -= pieceWidth;
 
-        //place each peces randomly
         foreach (Transform piece in pieces)
         {
             float x = Random.Range(-orthoWidth, orthoWidth);
@@ -184,7 +165,6 @@ public class PuzzleGameManager : MonoBehaviour {
         }
     }
 
-    // Update the border to fit the chosen puzzle.
     private void UpdateBorder()
     {
         LineRenderer lineRenderer = gameHolder.GetComponent<LineRenderer>();
@@ -202,15 +182,12 @@ public class PuzzleGameManager : MonoBehaviour {
         lineRenderer.SetPosition(2, new Vector3(halfWidth, -halfHeight, borderZ));
         lineRenderer.SetPosition(3, new Vector3(-halfWidth, -halfHeight, borderZ));
 
-        // Set the thickness of the border line.
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
 
-        // Show the border line.
         lineRenderer.enabled = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -229,14 +206,14 @@ public class PuzzleGameManager : MonoBehaviour {
                 draggingPiece = hit.transform;
                 offset = draggingPiece.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 offset += Vector3.back;
-                //Debug.Log("Piece clicked: " + hit.transform.name); // Debug log
+                //Debug.Log("Piece clicked: " + hit.transform.name); 
             } else
             {
-                Debug.Log("No piece clicked"); // Debug log
+                Debug.Log("No piece clicked"); 
             }
         }
 
-        // When we release the mouse button stop dragging.
+        // ha egérgombot felengedjük nem húzzuk tobább a darabot
         if (draggingPiece && Input.GetMouseButtonUp(0))
         {
             SnapAndDisableIfCorrect();
@@ -244,7 +221,6 @@ public class PuzzleGameManager : MonoBehaviour {
             draggingPiece = null;
         }
 
-        // Set the dragged piece position to the position of the mouse.
         if (draggingPiece)
         {
             Vector3 newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -259,7 +235,6 @@ public class PuzzleGameManager : MonoBehaviour {
         // We need to know the index of the piece to determine it's correct position.
         int pieceIndex = pieces.IndexOf(draggingPiece);
 
-        // The coordinates of the piece in the puzzle.
         int col = pieceIndex % dimensions.x;
         int row = pieceIndex / dimensions.x;
 
@@ -270,13 +245,11 @@ public class PuzzleGameManager : MonoBehaviour {
         // Check if we're in the correct location.
         if (Vector2.Distance(draggingPiece.localPosition, targetPosition) < (width / 2))
         {
-            // Snap to our destination.
+            // Snap
             draggingPiece.localPosition = targetPosition;
 
-            // Disable the collider so we can't click on the object anymore.
             draggingPiece.GetComponent<BoxCollider2D>().enabled = false;
 
-            // Increase the number of correct pieces, and check for puzzle completion.
             piecesCorrect++;
             score += 3; 
             UpdateScoreUI();
@@ -298,20 +271,18 @@ public class PuzzleGameManager : MonoBehaviour {
     }
     public void RestartGame()
     {
-        // Destroy all the puzzle pieces.
         foreach (Transform piece in pieces)
         {
             Destroy(piece.gameObject);
         }
         pieces.Clear();
 
-        // Reset the score
         score = 0;
         UpdateScoreUI();
 
         // Hide the outline
         gameHolder.GetComponent<LineRenderer>().enabled = false;
-        // Show the level select UI.
+
         playAgainButton.SetActive(false);
         levelSelectPanel.gameObject.SetActive(true);
     }
@@ -320,7 +291,6 @@ public class PuzzleGameManager : MonoBehaviour {
         if (scoreText != null)
         {
             scoreText.text = "Score: " + score + "    Moves: " + moves; 
-            
         }
     }
     private void OnPuzzleSolved()
@@ -347,13 +317,12 @@ public class PuzzleGameManager : MonoBehaviour {
                 Debug.LogError("Failed to update inventory: " + error);
             }
         ));
-        // Beállítjuk, hogy a puzzle megoldva van
+
         GameManager.Instance.SetPuzzleSolved(true);
 
         if (GameManager.Instance.LoadLastCompletedIsland() == 0) {
             GameManager.Instance.SaveLastCompletedIsland(1);
 
-            // serverre is küldöm
             int playerId = GameManager.Instance.LoadPlayerId();
             Debug.Log("puzzle vége:"+ playerId);
             int newIslandId = 1; 
@@ -397,10 +366,7 @@ public class PuzzleGameManager : MonoBehaviour {
             return;
         }
 
-       
 
     }
-
-    
 
 }

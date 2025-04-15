@@ -19,7 +19,7 @@ public class RandomObjectSelector : MonoBehaviour {
             if (hiddenObj != null)
             {
                 availableObjects.Add(hiddenObj);
-                hiddenObj.SetClickable(false); // Alapból mindenki nem kattintható
+                hiddenObj.SetClickable(false); 
             }
         }
 
@@ -32,19 +32,16 @@ public class RandomObjectSelector : MonoBehaviour {
             availableObjects.RemoveAt(randomIndex);
         }
 
-        // Beállítások alkalmazása
         foreach (HiddenObject obj in targets)
         {
             obj.SetClickable(true);
         }
-
-        // A nem kiválasztottak maradjanak nem kattinthatóak
+        //ami nincs a listán ne legyen kattintható!
         foreach (HiddenObject obj in availableObjects)
         {
             obj.SetClickable(false);
         }
 
-        //HOGManager.Instance.SetTargetObjects(targets);
         manager.SetTargetObjects(targets);
     }
 }

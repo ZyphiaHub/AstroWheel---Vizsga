@@ -1,8 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public enum GameState{
     wait,
@@ -11,7 +9,6 @@ public enum GameState{
 
 
 public class Board : MonoBehaviour {
-
 
     public GameState currentState = GameState.move;
     public int width;
@@ -35,8 +32,6 @@ public class Board : MonoBehaviour {
     [Header("UI Elements")]
     public GameObject playAgainButton;
 
-
-    // Use this for initialization
     void Start () {
         findMatches = FindObjectOfType<FindMatches>();
         allTiles = new BackgroundTile[width, height];
@@ -71,10 +66,7 @@ public class Board : MonoBehaviour {
                 dot.transform.parent = this.transform;
                 dot.name = "dot:( " + i + ", " + j + " )";
                 allDots[i, j] = dot;
-
-
             }
-
         }
     }
 
@@ -106,7 +98,6 @@ public class Board : MonoBehaviour {
             }
         }
 
-
         return false;
     }
 
@@ -114,15 +105,13 @@ public class Board : MonoBehaviour {
     {
         if (allDots[column, row].GetComponent<Dot>().isMatched)
         {
-            //mennyi elem van a match-ben?
+            
             match3Point ++;
             Debug.Log("timePoint:" + match3Point);
-            
-            
+            //mennyi elem van a match-ben?
             findMatches.currentMatches.Remove(allDots[column, row]);
             Destroy(allDots[column, row]);
-            allDots[column, row] = null;
-            
+            allDots[column, row] = null; 
         }
         UpdateUI();
     }
@@ -141,7 +130,6 @@ public class Board : MonoBehaviour {
             }
         }
         StartCoroutine(DecreaseRowCo());
-
     }
 
     private IEnumerator DecreaseRowCo()
@@ -185,8 +173,8 @@ public class Board : MonoBehaviour {
             }
         }
     }
-
-    private bool MatchesOnBoard()         //dotok eltörlése és feltöltése után keletkezett új match-eket keres
+    //dotok eltörlése és feltöltése után keletkezett új egyezéseketeket keres
+    private bool MatchesOnBoard()         
     {
         for (int i = 0; i < width; i++)
         {
@@ -217,7 +205,6 @@ public class Board : MonoBehaviour {
         yield return new WaitForSeconds(.5f);
         currentState = GameState.move;
 
-        
     }
     public void DecreaseMoveCount()
     {
@@ -236,7 +223,7 @@ public class Board : MonoBehaviour {
 
         GameManager.Instance.SaveTotalScore(currentTotalScore + match3Point);
         Debug.Log("current totalscore: " + currentTotalScore);
-        //serverre score
+        //serverre score feltöltés
         int inventoryId = PlayerPrefs.GetInt("InventoryID");
         int totalScore = GameManager.Instance.LoadTotalScore();
 
@@ -254,14 +241,13 @@ public class Board : MonoBehaviour {
             }
         ));
 
-        // Beállítjuk, hogy a puzzle megoldva van
+
         GameManager.Instance.SetPuzzleSolved(true);
 
         if (GameManager.Instance.LoadLastCompletedIsland() == 1)
         {
             GameManager.Instance.SaveLastCompletedIsland(2);
 
-            // serverre is küldöm
             int playerId = GameManager.Instance.LoadPlayerId();
             Debug.Log("puzzle vége:" + playerId);
             int newIslandId = 2;
@@ -313,7 +299,7 @@ public class Board : MonoBehaviour {
 
     public void RestartGame()
     {
-        // Töröljük az összes dot-ot
+        // Tisztítás
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
@@ -326,11 +312,11 @@ public class Board : MonoBehaviour {
         }
 
         match3Point = 0;
-        remMoves = 15; // vagy bármilyen kezdőérték
+        remMoves = 15; 
         currentState = GameState.move;
+        //újraépítés
 
         SetUp();
-
         playAgainButton.SetActive(false);
         descText.text = "Every icon you match, worth 1 point.\n\nAutomatic matches doesn't count against your steps.";
         UpdateUI();
@@ -342,7 +328,7 @@ public class Board : MonoBehaviour {
         scoreText.text = "Collected \nScore: \n" + match3Point;
         movesText.text = "Remaining\nMoves:\n " + remMoves;
     }
-
+    //amíg újratöltjük a dotokat ne lehessen belekattintani mert összezavarjuk a játékot!
     private IEnumerator SetDotsInActive()
     {
         yield return StartCoroutine(FillBoardCo());

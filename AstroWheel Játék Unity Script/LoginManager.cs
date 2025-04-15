@@ -29,14 +29,7 @@ public class LoginManager : MonoBehaviour {
         quitButton.onClick.AddListener(OnQuitToDesktopClicked);
 
     }
-    /*private void OnEnable()
-    {
-        ResetLoginUI();
-        loginButton.onClick.RemoveAllListeners(); // Régi események törlése
-        loginButton.onClick.AddListener(OnLoginButtonClicked);
-        registerButton.onClick.RemoveAllListeners();
-        //registerButton.onClick.AddListener(OnRegisterButtonClicked); // HIÁNYZIK A JELENLEGI KÓDBÓL!
-    }*/
+    
     public void OnLoginButtonClicked()
     {
         ClearSessionData();
@@ -145,10 +138,10 @@ public class LoginManager : MonoBehaviour {
 
                 if (lastCompletedIsland >= 1)
                 { // Ha az elsõ sziget teljesítve van
-                    SceneManager.LoadScene("Main_Menu"); // Fõmenü betöltése
+                    SceneManager.LoadScene("Main_Menu"); 
                 } else
                 {
-                    SceneManager.LoadScene("Island_1"); // Elsõ sziget betöltése
+                    SceneManager.LoadScene("Island_1"); 
                 }
 
                 int inventoryId = PlayerPrefs.GetInt("InventoryID", 0);
@@ -169,7 +162,6 @@ public class LoginManager : MonoBehaviour {
                 PlayerPrefs.Save();
 
 
-                // Bejelentkezési kérés indítása
                 yield return StartCoroutine(FetchPlayerData());
 
 
@@ -240,7 +232,7 @@ public class LoginManager : MonoBehaviour {
             SceneManager.LoadScene("Island_1"); // Elsõ sziget betöltése
         }
     }
-    // Játékos adatainak lekérése
+
     private IEnumerator FetchPlayerData()
     {
         string url = "https://astrowheelapi.onrender.com/api/players/me";
@@ -304,7 +296,7 @@ public class LoginManager : MonoBehaviour {
                    PlayerPrefs.SetString("PlayerUsername", playerData.playerName ?? string.Empty);
                    PlayerPrefs.Save();
                    GameManager.Instance.SaveTotalScore(playerData.totalScore);
-                   //GameManager.Instance.SaveCharId(playerData.characterId-6);
+                   
                    GameManager.Instance.SaveCharId(playerData.characterIndex);
                     PlayerPrefs.SetInt("InventoryID", playerData.inventoryId);
                    PlayerPrefs.Save();
@@ -359,16 +351,16 @@ public class LoginManager : MonoBehaviour {
 
     [System.Serializable]
     public class PlayerDataFetch {
-        public int playerId; // A szerver "playerId" mezõje
+        public int playerId; 
         public string playerName; 
-        public string userId; // A szerver "userId" mezõje
+        public string userId; 
         public string playerPassword;
         public string playerEmail;
         public int characterId;
         public int characterIndex;
         public int totalScore; 
         public int inventoryId; 
-        public int islandId; // A szerver "islandId" mezõje (nullable)
+        public int islandId; 
         public string characterName; 
         public string lastLogin; 
         public string createdAt; 

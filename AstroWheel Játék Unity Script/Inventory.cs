@@ -2,10 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory {
-    // A növények és a hozzájuk tartozó mennyiségek tárolása
+
     public Dictionary<PlantDatabase.Item, int> items = new Dictionary<PlantDatabase.Item, int>();
 
-    // Tárgy hozzáadása az inventoryhoz
     public void AddItem(PlantDatabase.Item item, int quantity)
     {
         if (items.ContainsKey(item))
@@ -21,7 +20,7 @@ public class Inventory {
         //Debug.Log($"Item added: {item.englishName}, Quantity: {quantity}");
     }
 
-    // Tárgy eltávolítása az inventoryból
+
     public void RemoveItem(PlantDatabase.Item item, int quantity)
     {
         if (items.ContainsKey(item))
@@ -58,16 +57,13 @@ public class Inventory {
 public class CraftedInventory {
     public Dictionary<ItemDatabase.Item, int> items = new Dictionary<ItemDatabase.Item, int>();
 
-    // Tárgy hozzáadása az inventoryhoz
     public void AddItem(ItemDatabase.Item item, int quantity)
     {
         if (items.ContainsKey(item))
         {
-            // Ha már van ilyen tárgy az inventoryban, növeljük a mennyiséget
             items[item] += quantity;
         } else
         {
-            // Ha nincs, hozzáadjuk az inventoryhoz
             items.Add(item, quantity);
         }
 
@@ -116,16 +112,16 @@ public class CraftedInventory {
                 return item;
             }
         }
-        return null; // Ha nem található
+        return null; 
     }
 
-    // Tárgy mennyiségének lekérdezése
+
     public int GetItemQuantity(ItemDatabase.Item item)
     {
         if (items.ContainsKey(item))
         {
             return items[item];
         }
-        return 0; // Ha nincs ilyen tárgy
+        return 0; 
     }
 }

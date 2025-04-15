@@ -29,7 +29,7 @@ public class MainMenuManager : MonoBehaviour {
         
         for (int i = 0; i < islandButtons.Length; i++)
         {
-            int islandIndex = i + 1; // A szigetek indexelése 1-tõl kezdõdik
+            int islandIndex = i + 1;
             if (GameManager.Instance.IsIslandCompleted(islandIndex-1))
             {
                 islandButtons[i].interactable = true; 
@@ -73,15 +73,13 @@ public class MainMenuManager : MonoBehaviour {
 
         private void LoadAndDisplayPlayerData()
     {
-        // Játékos neve
+
         string playerName = PlayerPrefs.GetString("PlayerUsername", "Guest");
         playerNameText.text = "Witch: \n" + playerName;
 
-        // Pontok betöltése a GameManager segítségével
         int playerScore = GameManager.Instance.LoadTotalScore();
         playerScoreText.text = "ChronoPoints: \n" + playerScore.ToString();
 
-        // Utolsó teljesített sziget száma
         int lastCompletedIsland = PlayerPrefs.GetInt("LastCompletedIsland", 0);
         lastCompletedIslandText.text = "Last Completed \nIsland: " + lastCompletedIsland;
     }
@@ -92,10 +90,7 @@ public class MainMenuManager : MonoBehaviour {
         PlayerPrefs.DeleteAll();
         PlayerPrefs.Save();
 
-        // UI visszaállítása
-        //ResetLoginUI();
 
-        // GameManager visszaállítása
         if (GameManager.Instance != null)
         {
             GameManager.Instance.SavePlayerId(0);
@@ -103,12 +98,11 @@ public class MainMenuManager : MonoBehaviour {
             GameManager.Instance.SaveTotalScore(0);
         }
 
-        // Login jelenet betöltése 
         SceneManager.LoadScene("Login"); 
     }
     private void OnQuitToDesktopClicked()
     {
-        // Adjunk hozzá extra ellenõrzéseket
+
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else

@@ -1,18 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MemoryCard : MonoBehaviour {
-    public Sprite frontImage; // Az elõlap képe
-    public Sprite backImage;  // A hátlap képe
-    public Image cardImage;  // Az aktuális kép
+    public Sprite frontImage; 
+    public Sprite backImage;  
+    public Image cardImage;  
     private bool isFlipped = false;
 
     private void Start()
     {
         cardImage = GetComponent<Image>();
-        
     }
 
 

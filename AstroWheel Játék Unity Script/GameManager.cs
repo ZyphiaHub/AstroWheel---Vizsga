@@ -1,6 +1,3 @@
-using JetBrains.Annotations;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,12 +6,10 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager Instance { get; private set; }
 
-    //public const string LastCompletedIslandKey = "LastCompletedIsland";
     public const string TotalScoreKey = "TotalScore";
-    //public const int PlayerIdKey = "PlayerId";
     public const string CharacterIdKey = "CharacterId";
 
-    private int islandIndex; // Új változó az aktuális sziget indexének tárolására
+    private int islandIndex; 
 
     private void Awake()
     {
@@ -22,7 +17,6 @@ public class GameManager : MonoBehaviour {
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            //Debug.Log("GameManager inicializálva.");
         } else
         {
             Debug.LogWarning("Második GameManager példány törölve!");
@@ -67,7 +61,7 @@ public class GameManager : MonoBehaviour {
         return PlayerPrefs.GetInt("LastCompletedIsland", 0);
     }
 
-    // Ellenõrzés: Egy adott sziget teljesítve van-e
+
     public bool IsIslandCompleted(int islandIndex)
     {
         return islandIndex <= LoadLastCompletedIsland();
@@ -88,11 +82,7 @@ public class GameManager : MonoBehaviour {
         return Application.internetReachability != NetworkReachability.NotReachable;
     }
 
-    /* public void SavePlayerId(int playerId)
-     {
-         PlayerPrefs.SetInt(PlayerIdKey, playerId);
-         PlayerPrefs.Save(); 
-     }*/
+   
     public void SavePlayerId(int playerId)
     {
         PlayerPrefs.SetInt("PlayerId", playerId);
@@ -107,7 +97,7 @@ public class GameManager : MonoBehaviour {
         } else
         {
             Debug.LogError("PlayerId not found in PlayerPrefs!");
-            return 0; // Vagy dobj egy kivételt, ha szükséges
+            return 0; 
         }
     }
     public void SaveCharId(int charId)
@@ -123,7 +113,7 @@ public class GameManager : MonoBehaviour {
         } else
         {
             Debug.LogError("PlayerId not found in PlayerPrefs!");
-            return 0; // Vagy dobj egy kivételt, ha szükséges
+            return 0; 
         }
     }
 

@@ -4,7 +4,7 @@ using UnityEditor;
 #endif
 
 public class ItemInitializer : MonoBehaviour {
-    public ItemDatabase itemDatabase; // Referencia az ItemDatabase-re
+    public ItemDatabase itemDatabase; 
 
 #if UNITY_EDITOR
     [ContextMenu("Initialize Items")]
@@ -23,53 +23,53 @@ public class ItemInitializer : MonoBehaviour {
             {
                 itemName = "Egy",
                 description = "A sharp blade for close combat.",
-                icon = LoadSprite("Assets/Art/Items/Avarvirág.png") // Példa elérési út
+                icon = LoadSprite("Assets/Art/Items/Avarvirág.png") 
             },
             new ItemDatabase.Item
             {
                 itemName = "Shield",
                 description = "Protects against enemy attacks.",
-                icon = LoadSprite("Assets/Art/Items/Korpafû.png") // Példa elérési út
+                icon = LoadSprite("Assets/Art/Items/Korpafû.png") 
             },
             new ItemDatabase.Item
             {
                 itemName = "Három",
                 description = "Protects against enemy attacks.",
-                icon = LoadSprite("Assets/Art/Items/Korpafû.png") // Példa elérési út
+                icon = LoadSprite("Assets/Art/Items/Korpafû.png") 
             },
             new ItemDatabase.Item
             {
                 itemName = "Shield",
                 description = "Protects against enemy attacks.",
-                icon = LoadSprite("Assets/Art/Items/Korpafû.png") // Példa elérési út
+                icon = LoadSprite("Assets/Art/Items/Korpafû.png") 
             },
             new ItemDatabase.Item
             {
                 itemName = "Öt",
                 description = "Protects against enemy attacks.",
-                icon = LoadSprite("Assets/Art/Items/Korpafû.png") // Példa elérési út
+                icon = LoadSprite("Assets/Art/Items/Korpafû.png") 
             },
             new ItemDatabase.Item
             {
                 itemName = "Shield",
                 description = "Protects against enemy attacks.",
-                icon = LoadSprite("Assets/Art/Items/Korpafû.png") // Példa elérési út
+                icon = LoadSprite("Assets/Art/Items/Korpafû.png") 
             },
             new ItemDatabase.Item
             {
                 itemName = "Shield",
                 description = "Protects against enemy attacks.",
-                icon = LoadSprite("Assets/Art/Items/Korpafû.png") // Példa elérési út
+                icon = LoadSprite("Assets/Art/Items/Korpafû.png")
             },
             new ItemDatabase.Item
             {
                 itemName = "Potion",
                 description = "Restores 20 HP.",
-                icon = LoadSprite("Assets/Art/Items/Tarlóhere.png") // Példa elérési út
+                icon = LoadSprite("Assets/Art/Items/Tarlóhere.png") 
             }
         };
 
-        // Mentjük a változtatásokat
+        
         EditorUtility.SetDirty(itemDatabase);
         AssetDatabase.SaveAssets();
         Debug.Log("ItemDatabase inicializálva és mentve!");

@@ -1,5 +1,4 @@
 using UnityEngine;
-using System;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -8,7 +7,7 @@ public class IslandManager : MonoBehaviour, IGameState {
     public int islandIndex; 
     public DialogManager dialogManager;
     public Button bactToMainMenuBtn;
-    public Button previousIslandButton; // Elõzõ sziget gombja
+    public Button previousIslandButton;
     public Button nextIslandButton;
     public Image characterImage;
 
@@ -27,21 +26,17 @@ public class IslandManager : MonoBehaviour, IGameState {
             nextIslandButton.onClick.AddListener(OnNextIslandClicked);
         }
 
-        // Állapot inicializálása
         EnterState();
 
-        // Karakterkép betöltése
         LoadSelectedCharacterImage();
     }
 
-    // IGameState metódusok
     public void EnterState()
     {
         Debug.Log($"Beléptél a(z) {islandIndex}. szigetre!");
         int lastCompletedIsland = GameManager.Instance.LoadLastCompletedIsland();
 
         Debug.Log($"Last completed island: {lastCompletedIsland}, Current island: {islandIndex}");
-        // Dialógus megjelenítése, ha a játékos elõször érkezik
         if (lastCompletedIsland < islandIndex)
         {
             List<string> dialogList = new List<string>(DialogDatabase.GetDialogForIsland(islandIndex));
@@ -55,7 +50,6 @@ public class IslandManager : MonoBehaviour, IGameState {
 
     public void UpdateState()
     {
-
         if (IsPuzzleSolved())
         {
             ExitState();
@@ -66,14 +60,12 @@ public class IslandManager : MonoBehaviour, IGameState {
     {
         Debug.Log($"Kiléptél a(z) {islandIndex}. szigetrõl!");
 
-        // Puzzle megoldva, mentjük a sziget teljesítését
         GameManager.Instance.SaveLastCompletedIsland(islandIndex);
-        //GameStateManager.Instance.ChangeState(new MainMenuState());
+
     }
     private void OnBackToMainMenuClicked()
     {
         SceneManager.LoadScene("Main_Menu");
-        
     }
 
     private void OnPreviousIslandClicked()
@@ -81,7 +73,6 @@ public class IslandManager : MonoBehaviour, IGameState {
         NavigateToIsland(islandIndex - 1);
     }
 
-    // Gomb eseménykezelõje: Következõ sziget
     private void OnNextIslandClicked()
     {
         NavigateToIsland(islandIndex + 1);
@@ -116,25 +107,21 @@ public class IslandManager : MonoBehaviour, IGameState {
         }
     }
 
-    // Puzzle megoldásának ellenõrzése
+
     private bool IsPuzzleSolved()
     {
-        // A GameManager segítségével ellenõrizzük, hogy a puzzle megoldva van-e
         return GameManager.Instance.IsPuzzleSolved(islandIndex);
     }
 
     private void LoadSelectedCharacterImage()
     {
-        // Betöltjük a kiválasztott karakterkép indexét
+
         int selectedCharacterIndex = PlayerPrefs.GetInt("CharacterIndex", 0);
 
-        // Ellenõrizzük, hogy a RegisterManager és a characterSprites tömb létezik-e
         if (RegisterManager.Instance != null && RegisterManager.Instance.CharacterSprites != null)
         {
-            // Ellenõrizzük, hogy a kiválasztott index érvényes-e
             if (selectedCharacterIndex >= 0 && selectedCharacterIndex < RegisterManager.Instance.CharacterSprites.Length)
             {
-                // Beállítjuk a karakterképet
                 characterImage.sprite = RegisterManager.Instance.CharacterSprites[selectedCharacterIndex];
             } else
             {

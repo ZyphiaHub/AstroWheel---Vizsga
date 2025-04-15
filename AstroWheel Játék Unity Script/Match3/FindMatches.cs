@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class FindMatches : MonoBehaviour {
@@ -39,8 +38,6 @@ public class FindMatches : MonoBehaviour {
                         {
                             if (leftDot.tag == currentDot.tag && rightDot.tag == currentDot.tag)
                             {
-
-
                                 if(!currentMatches.Contains(leftDot))
                                 {
                                     currentMatches.Add(leftDot);
@@ -57,9 +54,7 @@ public class FindMatches : MonoBehaviour {
                                 }
                                 currentDot.GetComponent<Dot>().isMatched = true;
                             }
-
                         }
-
                     }
 
                     if (j > 0 && j < board.height - 1)

@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEngine.UIElements.Experimental;
+
 
 public class Dot : MonoBehaviour
 {
@@ -28,28 +26,19 @@ public class Dot : MonoBehaviour
     public float swipeAngle = 0;
     public float swipeResist = 1f;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         board = FindObjectOfType<Board>();
         findMatches = FindObjectOfType<FindMatches>();
-        //targetX = (int)transform.position.x;
-        
-        //targetY = (int)transform.position.y;
-        //row = targetY;
-        //column = targetX;
-        //previousRow = row;
-        //previousColumn = column;
+
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         //FindMatches();
         if (isMatched)
         {
-
             SpriteRenderer mySprite = GetComponent<SpriteRenderer>();
             Color currentColor = mySprite.color;
             mySprite.color = new Color(0f, 1f, 0f, .2f);
@@ -86,14 +75,12 @@ public class Dot : MonoBehaviour
                 board.allDots[column, row] = this.gameObject;
             }
             findMatches.FindAllMatches();
-            
 
         } else
         {
             //Directly set the position
             tempPosition = new Vector2(transform.position.x, targetY);
             transform.position = tempPosition;
-
         }
     }
 
@@ -105,27 +92,26 @@ public class Dot : MonoBehaviour
         {
             if (!isMatched && !otherDot.GetComponent<Dot>().isMatched)
             {
+                //nincs egyezés visszahelyezem az eredeti rácshelyre
                 otherDot.GetComponent<Dot>().row = row;
                 otherDot.GetComponent<Dot>().column = column;
                 row = previousRow;
                 column = previousColumn;
                 yield return new WaitForSeconds(.5f);
                 board.currentState = GameState.move;
-
             }
             else
             {
+                //van egyezés, törlöm a dotot
                 board.DecreaseMoveCount();
-                board.DestroyMatches();    //van egyezés, eltakarítja 
-                
+                board.DestroyMatches();      
             }
 
-            otherDot = null;             //nincs egyezés visszacseréli
-
+            otherDot = null;             
         } 
     }
 
-        private void OnMouseDown()
+    private void OnMouseDown()
     {
         if (board.currentState == GameState.move)
         {
@@ -151,7 +137,7 @@ public class Dot : MonoBehaviour
             || Mathf.Abs(finalTouchPosition.x - firstTouchPosition.x) > swipeResist)
         {
             swipeAngle = Mathf.Atan2(finalTouchPosition.y - firstTouchPosition.y, finalTouchPosition.x - firstTouchPosition.x)
-            * 180 / Mathf.PI;   // <- makes it degree instead of rad
+            * 180 / Mathf.PI;   // <- degree instead of rad
 
             //Debug.Log("swipeangle:" + swipeAngle);
             MovePieces();
@@ -159,7 +145,6 @@ public class Dot : MonoBehaviour
         } else
         {
             board.currentState = GameState.move;
-
         }
     }
 

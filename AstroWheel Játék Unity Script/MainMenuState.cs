@@ -10,7 +10,7 @@ public class MainMenuState : IGameState {
 
     public void UpdateState()
     {
-        // Itt kezelheted a fõmenü frissítését
+        
     }
 
     public void ExitState()

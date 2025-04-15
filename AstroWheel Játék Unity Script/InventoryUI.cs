@@ -1,15 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro; // TextMeshPro névtér importálása
+using TMPro;
 
 public class InventoryUI : MonoBehaviour {
     [Header("Plant Inventory References")]
-    public PlantDatabase plantDatabase; // ItemDatabase referenciája
-    public GameObject plantSlotPrefab;     // Slot prefab referenciája
+    public PlantDatabase plantDatabase; 
+    public GameObject plantSlotPrefab;     
     public Transform plantPanelParent;
 
     [Header("Crafted Inventory References")]
-    public ItemDatabase itemDatabase;   // ItemDatabase referenciája
+    public ItemDatabase itemDatabase;  
     public GameObject craftedSlotPrefab; 
     public Transform craftedPanelParent;
 
@@ -20,45 +20,42 @@ public class InventoryUI : MonoBehaviour {
     public TextMeshProUGUI ingredientText; 
     public Button craftButton;          
 
-    private CraftingRecipe selectedRecipe; // Kiválasztott recept
+    private CraftingRecipe selectedRecipe; 
 
 
     private void Start()
     {
         
-        // Frissítjük az UI-t az inventory tartalma alapján
         RefreshInventoryUI();
         InitializeCraftPanel();
     }
 
     private void RefreshInventoryUI()
     {
-        // Töröljük a korábbi slotokat a plant inventorybõl
+        // slotok tisztítása és újra létrehozása
         foreach (Transform child in plantPanelParent)
         {
             Destroy(child.gameObject);
         }
 
-        // Létrehozzuk a slotokat a plant inventory tartalma alapján
         foreach (var entry in InventoryManager.Instance.inventory.items)
         {
             CreateSlot(entry.Key.icon, entry.Key.englishName, entry.Value.ToString(), plantSlotPrefab, plantPanelParent);
         }
 
-        // Töröljük a korábbi slotokat a crafted inventorybõl
+        // crafted slotok tisztítása és újra létrehozása
         foreach (Transform child in craftedPanelParent)
         {
             Destroy(child.gameObject);
         }
 
-        // Létrehozzuk a slotokat a crafted inventory tartalma alapján
         foreach (var entry in InventoryManager.Instance.craftedInventory.items)
         {
             CreateSlot(entry.Key.icon, entry.Key.itemName, entry.Value.ToString(), craftedSlotPrefab, craftedPanelParent);
         }
     }
 
-    // Egy új slot létrehozása és beállítása
+
     private void CreateSlot(Sprite icon, string itemName, string quantity, GameObject slotPrefab, Transform parent)
     {
         // Létrehozunk egy új slotot
@@ -109,11 +106,8 @@ public class InventoryUI : MonoBehaviour {
         }
     }
 
-    /*InventoryUI.Instance.RefreshInventoryUI(); // Frissíti az UI-t*/
 
 
-
-    // Craft panel inicializálása
     private void InitializeCraftPanel()
     {
         // Ellenõrizzük, hogy létezik-e a recipeListParent
@@ -122,7 +116,7 @@ public class InventoryUI : MonoBehaviour {
             Debug.LogError("recipeListParent nincs beállítva!");
             return;
         }
-        // Töröljük a korábbi recept gombokat
+        // recept gombok tisztítása és újra létreohozása
         foreach (Transform child in recipeListParent)
         {
             Destroy(child.gameObject);
@@ -135,7 +129,6 @@ public class InventoryUI : MonoBehaviour {
 
         Debug.Log($"Receptek száma: {InventoryManager.Instance.craftingRecipe.Count}");
 
-        // Létrehozzuk a recept gombokat
         foreach (var recipe in InventoryManager.Instance.craftingRecipe)
         {
             if (recipe == null || recipe.outputItem == null)
@@ -175,10 +168,8 @@ public class InventoryUI : MonoBehaviour {
             button.onClick.AddListener(() => SelectRecipe(recipe));
         }
 
-        // Frissítsd a layoutot
         LayoutRebuilder.ForceRebuildLayoutImmediate(recipeListParent.GetComponent<RectTransform>());
 
-        // Craft gomb eseménykezelõje
         if (craftButton != null)
         {
             craftButton.onClick.AddListener(CraftSelectedRecipe);
@@ -201,13 +192,13 @@ public class InventoryUI : MonoBehaviour {
         string ingredientList = "Ingredients needed:\n";
         foreach (var ingredient in recipe.ingredients)
         {
-            if (ingredient.plantItem != null) // Növény alapanyag
+            if (ingredient.plantItem != null) 
             {
                 int availableQuantity = InventoryManager.Instance.inventory.items.ContainsKey(ingredient.plantItem)
                     ? InventoryManager.Instance.inventory.items[ingredient.plantItem]
                     : 0;
                 ingredientList += $"{ingredient.plantItem.englishName}: {ingredient.quantity} (You have: {availableQuantity})\n";
-            } else if (ingredient.craftedItem != null) // Crafted item alapanyag
+            } else if (ingredient.craftedItem != null) 
             {
                 int availableQuantity = InventoryManager.Instance.craftedInventory.items.ContainsKey(ingredient.craftedItem)
                     ? InventoryManager.Instance.craftedInventory.items[ingredient.craftedItem]
@@ -218,7 +209,6 @@ public class InventoryUI : MonoBehaviour {
         ingredientText.text = ingredientList;
     }
 
-    // Craftolás indítása
     private void CraftSelectedRecipe()
     {
         if (selectedRecipe != null)

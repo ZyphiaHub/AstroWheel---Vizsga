@@ -42,7 +42,6 @@ public class MemoController : MonoBehaviour {
     }
     void InitializeGame()
     {
-        // Visszaállítás kezdõértékekre
         score = 0;
         remGuesses = 24;
         countCorrectPicks = 0;
@@ -58,12 +57,10 @@ public class MemoController : MonoBehaviour {
             card.interactable = true;
         }
 
-        // Kártyapárok újragenerálása és összekeverése
         cardPairs.Clear();
         AddCardPairs();
         Shuffle(cardPairs);
 
-        // UI frissítése
         UpdateUI();
         playAgainButton.SetActive(false);
     }
@@ -122,7 +119,6 @@ public class MemoController : MonoBehaviour {
 
             StartCoroutine(CheckCardMatch());
 
-
         }
     }
 
@@ -143,7 +139,6 @@ public class MemoController : MonoBehaviour {
             //pontozás
             score += Mathf.Max(1, 10 - countPicks);
             Debug.Log("pontszám:" + score);
-
             
             CheckIfTheGameIsFinished();
 

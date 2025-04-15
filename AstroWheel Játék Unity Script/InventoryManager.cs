@@ -30,7 +30,7 @@ public class InventoryManager : MonoBehaviour {
         InitializeInventories();
     }
 
-    // Inventoryk inicializálása és betöltése
+    
     public void InitializeInventories()
     {
         // Plant inventory inicializálása
@@ -69,7 +69,7 @@ public class InventoryManager : MonoBehaviour {
         {
             if (!craftedInventory.items.ContainsKey(item))
             {
-                // Ha nincs benne, hozzáadjuk 0 mennyiséggel
+               
                 craftedInventory.AddItem(item, 0);
                 Debug.Log($"New item added to CraftedInventory: {item.itemName}");
             }
@@ -168,7 +168,7 @@ public class InventoryManager : MonoBehaviour {
 
         foreach (var material in materials)
         {
-            if (material.materialId <= 27) // Növények
+            if (material.materialId <= 27) 
             {
                 var plantItem = plantDatabase.items.FirstOrDefault(p => p.plantId == material.materialId);
                 if (plantItem != null)
@@ -179,7 +179,7 @@ public class InventoryManager : MonoBehaviour {
                 {
                     Debug.LogWarning($"No plant found with ID: {material.materialId}");
                 }
-            } else // Craftolt itemek (ID >= 28)
+            } else 
             {
                 var craftedItem = itemDatabase.items.FirstOrDefault(i => i.itemId == material.materialId);
                 if (craftedItem != null)
@@ -195,7 +195,7 @@ public class InventoryManager : MonoBehaviour {
 
         Debug.Log($"Inventory loaded: {inventory.items.Count} plants, {craftedInventory.items.Count} crafted items");
     }
-    // Metódus az inventory adatainak küldésére
+  
     public void SaveInventoryToServer()
     {
         // A PlayerID lekérése a PlayerPrefs-bõl
@@ -238,7 +238,7 @@ public class InventoryManager : MonoBehaviour {
     }
 
 
-    // Crafted inventory mentése PlayerPrefs-be
+
     public void SaveCraftedInventory()
     {
 
@@ -266,7 +266,7 @@ public class InventoryManager : MonoBehaviour {
         }
 
     }
-    // Metódus a crafted inventory adatainak küldésére
+
     public void SaveCraftedInventoryToServer()
     {
         //Debug.Log($"SaveCraftedInventoryToServer called. Inventory is null? {craftedInventory == null}");
@@ -311,7 +311,7 @@ public class InventoryManager : MonoBehaviour {
         ));
     }
 
-    // Plant inventory betöltése PlayerPrefs-bõl
+
     public void LoadInventory()
     {
         foreach (var item in plantDatabase.items)
@@ -354,14 +354,13 @@ public class InventoryManager : MonoBehaviour {
             if (PlayerPrefs.HasKey(key))
             {
                 int quantity = PlayerPrefs.GetInt(key);
-                craftedInventory.items[item] = quantity; // Frissítjük a mennyiséget
+                craftedInventory.items[item] = quantity; 
             }
         }
         Debug.Log("Crafted inventory loaded.");
         
     }
 
-    // PlayerPrefs törlése (mindkét inventoryhoz)
     public void ClearPlayerPrefs()
     {
         PlayerPrefs.DeleteAll();
@@ -381,7 +380,7 @@ public class InventoryManager : MonoBehaviour {
                     Debug.LogWarning($"Nincs elegendõ {ingredient.plantItem.englishName} a craftoláshoz.");
                     return false; 
                 }
-            } else if (ingredient.craftedItem != null) // Crafted item alapanyag
+            } else if (ingredient.craftedItem != null) 
             {
                 if (!craftedInventory.items.ContainsKey(ingredient.craftedItem) || craftedInventory.items[ingredient.craftedItem] < ingredient.quantity)
                 {
@@ -394,10 +393,10 @@ public class InventoryManager : MonoBehaviour {
         // Levonjuk az alapanyagokat
         foreach (var ingredient in recipe.ingredients)
         {
-            if (ingredient.plantItem != null) // Növény alapanyag
+            if (ingredient.plantItem != null) 
             {
                 inventory.RemoveItem(ingredient.plantItem, ingredient.quantity);
-            } else if (ingredient.craftedItem != null) // Crafted item alapanyag
+            } else if (ingredient.craftedItem != null) 
             {
                 craftedInventory.RemoveItem(ingredient.craftedItem, ingredient.quantity);
             }

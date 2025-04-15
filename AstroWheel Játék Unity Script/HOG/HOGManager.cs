@@ -4,7 +4,6 @@ using TMPro;
 using System.Collections.Generic;
 
 public class HOGManager : MonoBehaviour {
-    //public static HOGManager Instance;
 
     [Header("UI Elements")]
     public TMP_Text scoreText;
@@ -21,9 +20,8 @@ public class HOGManager : MonoBehaviour {
 
     private void Start()
     {
-        // Gomb esemény feliratkozása
         playAgainButton.onClick.AddListener(ResetGame);
-        playAgainButton.gameObject.SetActive(false); // Alapból rejtve
+        playAgainButton.gameObject.SetActive(false); 
     }
     public void SetTargetObjects(List<HiddenObject> targets)
     {
@@ -71,7 +69,6 @@ public class HOGManager : MonoBehaviour {
             {
                 GameManager.Instance.SaveLastCompletedIsland(6);
 
-                // serverre is küldöm
                 int playerId = GameManager.Instance.LoadPlayerId();
                 Debug.Log("puzzle vége:" + playerId);
                 int newIslandId = 2;
@@ -89,7 +86,7 @@ public class HOGManager : MonoBehaviour {
                     }
                 ));
             }
-            // Hozzáadjuk a 1 indexû tárgyat az inventoryhoz
+            // Hozzáadjuk a 5 indexû tárgyat az inventoryhoz
             if (plantDatabase != null && plantDatabase.items.Length > 0)
             {
                 PlantDatabase.Item itemToAdd = plantDatabase.items[5];
@@ -120,12 +117,11 @@ public class HOGManager : MonoBehaviour {
     private void UpdateUI()
     {
         playAgainButton.gameObject.SetActive(false);
-        // Score frissítése
+
         if (scoreText != null)
             
             scoreText.text = $"Score: {score} points";
 
-        // Lista frissítése
         if (targetListText != null)
         {
             string targetNames = "";

@@ -18,20 +18,18 @@ public class RandomObjectPlacer : MonoBehaviour {
     {
         PlaceRandomObjects();
     }
-
+    //képek beválogatása és randomizálása
     public void PlaceRandomObjects()
     {
         usedPositions.Clear();
         List<GameObject> spawnedObjects = new List<GameObject>();
 
-        // Ellenõrzés
         if (hiddenObjectPrefabs.Length < totalObjectsToPlace)
         {
             Debug.LogError("Not enough unique prefabs!");
             return;
         }
 
-        // Prefabok keverése
         List<GameObject> shuffledPrefabs = new List<GameObject>(hiddenObjectPrefabs);
         Shuffle(shuffledPrefabs);
 
@@ -95,7 +93,7 @@ public class RandomObjectPlacer : MonoBehaviour {
             list[randomIndex] = temp;
         }
     }
-
+    //képek megjelenésének területe
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;

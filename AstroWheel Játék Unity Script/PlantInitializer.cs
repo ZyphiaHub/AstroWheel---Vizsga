@@ -6,7 +6,7 @@ public class PlantInitializer : MonoBehaviour {
 
     void Start()
     {
-        //adatok hozzáadása
+        
         plantDatabase.items = new PlantDatabase.Item[]
         {
             new PlantDatabase.Item
@@ -162,7 +162,7 @@ public class PlantInitializer : MonoBehaviour {
             
         };
 
-        // Opcionálisan mentheted az adatbázist
+       
 #if UNITY_EDITOR
         UnityEditor.EditorUtility.SetDirty(plantDatabase);
         UnityEditor.AssetDatabase.SaveAssets();

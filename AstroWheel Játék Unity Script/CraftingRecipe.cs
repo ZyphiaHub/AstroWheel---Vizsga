@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using UnityEngine;
+
 
 [System.Serializable]
 public class CraftingRecipe {
@@ -7,10 +7,10 @@ public class CraftingRecipe {
     public class Ingredient {
         public PlantDatabase.Item plantItem; 
         public ItemDatabase.Item craftedItem; 
-        public int quantity; // Szükséges mennyiség
+        public int quantity; 
     }
 
-    public List<Ingredient> ingredients; // Szükséges alapanyagok
-    public ItemDatabase.Item outputItem; // Kimeneti crafted item
-    public int outputQuantity; // Kimeneti mennyiség
+    public List<Ingredient> ingredients; 
+    public ItemDatabase.Item outputItem; 
+    public int outputQuantity; 
 }

@@ -12,7 +12,7 @@ public class ItemDatabase : ScriptableObject {
         {
             if (obj is Item other)
             {
-                return itemName == other.itemName; // Azonosítás név alapján
+                return itemName == other.itemName; 
             }
             return false;
         }
@@ -23,5 +23,5 @@ public class ItemDatabase : ScriptableObject {
         }
     }
 
-    public Item[] items; // Tárgyak listája
+    public Item[] items; 
 }

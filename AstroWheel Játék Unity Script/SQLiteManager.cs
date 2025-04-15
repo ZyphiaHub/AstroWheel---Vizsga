@@ -13,14 +13,13 @@ public class LocalDatabaseManager : MonoBehaviour {
     public CraftedInventory craftedInventory { get; set; }
     private void Awake()
     {
-        // Singleton minta implementációja
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Ne törlõdjön a scene váltáskor
+            DontDestroyOnLoad(gameObject); 
         } else
         {
-            Destroy(gameObject); // Ha már van példány, töröld ezt
+            Destroy(gameObject); 
         }
     }
 
@@ -36,14 +35,14 @@ public class LocalDatabaseManager : MonoBehaviour {
         string sourcePath = Path.Combine(Application.streamingAssetsPath, "game_data.db");
         string destinationPath = Path.Combine(Application.persistentDataPath, "game_data.db");
 
-        // Ellenõrizzük, hogy a forrásfájl létezik-e
+
         if (!File.Exists(sourcePath))
         {
             Debug.LogError("Source database file not found in StreamingAssets.");
             return;
         }
 
-        // Ha a célfájl még nem létezik, másold át a fájlt
+
         if (!File.Exists(destinationPath))
         {
             try
@@ -63,7 +62,7 @@ public class LocalDatabaseManager : MonoBehaviour {
         {
             connection = new SQLiteConnection(destinationPath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 
-            // Táblák létrehozása, ha még nem léteznek
+
             connection.CreateTable<PlayerTbl>();
             connection.CreateTable<CharacterTbl>();
             connection.CreateTable<InventoryTbl>();
@@ -126,7 +125,7 @@ public class LocalDatabaseManager : MonoBehaviour {
 
         try
         {
-            // Lekérdezzük a játékos utolsó bejelentkezési idejét a playerId alapján
+  
             var playerData = connection.Table<PlayerTbl>()
                                       .FirstOrDefault(p => p.playerId == playerId);
 
@@ -158,7 +157,7 @@ public class LocalDatabaseManager : MonoBehaviour {
 
         try
         {
-            // Játékos keresése email és jelszó alapján
+
             var playerData = connection.Table<PlayerTbl>()
                                       .FirstOrDefault(p => p.playerEmail.Equals(email.Trim(), StringComparison.OrdinalIgnoreCase) 
                                       && p.playerPassword == password.Trim());
@@ -179,7 +178,7 @@ public class LocalDatabaseManager : MonoBehaviour {
             return null;
         }
     }
-    // Inventory mentése az adatbázisba
+
     public void SaveInventoryData(int inventoryId, Dictionary<PlantDatabase.Item, int> inventoryItems)
     {
         if (connection == null)
@@ -222,7 +221,7 @@ public class LocalDatabaseManager : MonoBehaviour {
         }
     }
 
-    // Inventory betöltése az adatbázisból
+
     public List<MaterialDataFetchLite> LoadInventoryData(int inventoryId)
     {
         List<MaterialDataFetchLite> resultList = new List<MaterialDataFetchLite>();
@@ -343,7 +342,7 @@ public class LocalDatabaseManager : MonoBehaviour {
         }
     }
 
-    // Adatmodell a PlayerTbl táblához
+
     public class PlayerTbl {
         [PrimaryKey] public int playerId { get; set; }
         [MaxLength(255)] public string playerName { get; set; } = string.Empty;
@@ -364,7 +363,7 @@ public class LocalDatabaseManager : MonoBehaviour {
         [PrimaryKey] public int CharacterId { get; set; } 
         [MaxLength(50)] public string AstroSign { get; set; } 
         [MaxLength(10)] public string Gender { get; set; }
-        public int CharacterIndex { get; set; } // Karakter indexe
+        public int CharacterIndex { get; set; } 
     }
 
     public class InventoryTbl {

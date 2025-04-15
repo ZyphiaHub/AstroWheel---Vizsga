@@ -1,14 +1,12 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
-using static LocalDatabaseManager;
 
 public class APIClient : MonoBehaviour {
-    public APIConfig apiConfig; // Az APIConfig ScriptableObject referenciája
-    //public InventoryManager inventoryManager;
+    public APIConfig apiConfig; 
+
     
     public static APIClient Instance { get;  private set; }
     public Inventory inventory { get; set; }
@@ -63,7 +61,7 @@ public class APIClient : MonoBehaviour {
 
     public IEnumerator Register(string email, string password, string playerName, System.Action<string> onSuccess, System.Action<string> onError)
     {
-        string url = "https://astrowheelapi.onrender.com/api/auth/register"; // Regisztrációs URL
+        string url = "https://astrowheelapi.onrender.com/api/auth/register"; 
 
         // Regisztrációs adatok összeállítása
         var registrationData = new RegisterRequest
@@ -96,7 +94,7 @@ public class APIClient : MonoBehaviour {
 
     public IEnumerator Login(string email, string password, System.Action<string> onSuccess, System.Action<string> onError)
     {
-        string url = "https://astrowheelapi.onrender.com/api/auth/login"; // Bejelentkezési URL
+        string url = "https://astrowheelapi.onrender.com/api/auth/login"; 
 
         // Bejelentkezési adatok összeállítása
         var loginData = new LoginRequest
@@ -126,7 +124,6 @@ public class APIClient : MonoBehaviour {
         }
     }
    
-    
 
     public IEnumerator SaveInventory(int inventoryId, InventoryData[] plantItems, System.Action<string> onSuccess, System.Action<string> onError)
     {
@@ -136,7 +133,6 @@ public class APIClient : MonoBehaviour {
             yield break;
         }
 
-        // Szûrés: csak azok az elemek, amelyeknek quantity > 0
         var validItems = plantItems
             .Where(item => item.Quantity > 0)
             .ToList();
@@ -150,7 +146,7 @@ public class APIClient : MonoBehaviour {
 
         foreach (var item in validItems)
         {
-            // Beállítjuk az inventoryId-t, ha még nincs beállítva
+
             item.InventoryId = inventoryId;
 
             // JSON adat létrehozása
@@ -188,7 +184,6 @@ public class APIClient : MonoBehaviour {
             yield break;
         }
 
-        // Szûrés: csak azok az elemek, amelyeknek quantity > 0
         var validItems = craftedItems
             .Where(item => item.Quantity > 0)
             .ToList();
@@ -259,7 +254,7 @@ public class APIClient : MonoBehaviour {
                 string jsonResponse = webRequest.downloadHandler.text;
                 try
                 {
-                    // Parse the response
+       
                     var wrapper = JsonUtility.FromJson<InventoryMaterialResponseWrapper>("{\"inventoryMaterials\":" + jsonResponse + "}");
 
                     // Convert to InventoryData array
@@ -306,13 +301,13 @@ public class APIClient : MonoBehaviour {
                 string jsonResponse = webRequest.downloadHandler.text;
                 try
                 {
-                    // Parse the response
+                  
                     var wrapper = JsonUtility.FromJson<InventoryMaterialResponseWrapper>("{\"inventoryMaterials\":" + jsonResponse + "}");
 
                     // Convert to InventoryData array and filter for crafted items
                     // Assuming crafted items have materialId above a certain threshold (adjust as needed)
                     InventoryData[] inventoryItems = wrapper.inventoryMaterials
-                        .Where(item => item.materialId >= 28) // Example filter for crafted items
+                        .Where(item => item.materialId >= 28) 
                         .Select(item => new InventoryData
                         {
                             InventoryId = item.inventoryId,
@@ -341,7 +336,6 @@ public class APIClient : MonoBehaviour {
             TotalScore = totalScore
         };
 
-        // JSON formátumba alakítjuk
         string jsonData = JsonUtility.ToJson(inventoryTotScore);
 
         // PUT kérés elküldése
@@ -371,7 +365,6 @@ public class APIClient : MonoBehaviour {
     {
         string url = $"https://astrowheelapi.onrender.com/api/players/{playerId}";
 
-        // A frissítendõ adatok JSON formátumba alakítása
         string jsonData = JsonUtility.ToJson(updatedData);
         Debug.Log("Sending player update data: " + jsonData);
 
